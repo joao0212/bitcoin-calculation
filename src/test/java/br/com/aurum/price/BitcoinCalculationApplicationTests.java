@@ -25,15 +25,12 @@ public class BitcoinCalculationApplicationTests {
 	private BitcoinService bitcoinService;
 
 	@Test
-	public void mustGetFiveBuysValues() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
+	public void mustGetFiveValues() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
+		int expected = 5;
 		List<Double> listHighestBuys = bitcoinService.listHighestBuys();
-		assertEquals(5, listHighestBuys.size());
-	}
-
-	@Test
-	public void mustGetFiveSellsValues() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
 		List<Double> listHighestSells = bitcoinService.listHighestSells();
-		assertEquals(5, listHighestSells.size());
+		assertEquals(expected, listHighestBuys.size());
+		assertEquals(expected, listHighestSells.size());
 	}
 
 	@Test

@@ -1,62 +1,39 @@
 package br.com.aurum.price.controller;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
-import br.com.aurum.price.service.BitcoinService;
+import br.com.aurum.price.service.IBitcoinService;
 
 @RestController
-@RequestMapping("/bitcoin")
+@RequestMapping
 public class BitcoinController {
 
 	@Autowired
-	private BitcoinService bitcoinService;
+	private IBitcoinService bitcoinService;
 
-	@GetMapping("/highestsells")
-	public List<Double> listHighestSells() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.listHighestSells();
+	@GetMapping("/higher")
+	public List<Double> showHighers(@RequestParam String type) {
+		return bitcoinService.showHighers(type);
 	}
 
-	@GetMapping("/highestbuys")
-	public List<Double> listHighestBuys() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.listHighestBuys();
+	@GetMapping("/average")
+	public Double showAverage(@RequestParam String type) {
+		return bitcoinService.showAverage(type);
 	}
 
-	@GetMapping("/averagebuy")
-	public Double averageBuy() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.averageBuy();
+	@GetMapping("/median")
+	public Double showMedian(@RequestParam String type) {
+		return bitcoinService.showMedian(type);
 	}
 
-	@GetMapping("/averagesell")
-	public Double averageSell() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.averageSell();
-	}
-
-	@GetMapping("/medianbuy")
-	public Double medianBuy() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.medianBuy();
-	}
-
-	@GetMapping("/mediansell")
-	public Double medianSell() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.medianSell();
-	}
-
-	@GetMapping("/standarddeviationbuy")
-	public Double standardDeviationBuy() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.standardDeviationBuy();
-	}
-
-	@GetMapping("/standarddeviationsell")
-	public Double standardDeviationSell() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		return bitcoinService.standardDeviationSell();
+	@GetMapping("/standarddeviation")
+	public Double showStandardDeviation(@RequestParam String type) {
+		return bitcoinService.showStandardDeviation(type);
 	}
 }

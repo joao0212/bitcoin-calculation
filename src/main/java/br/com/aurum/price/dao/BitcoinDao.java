@@ -1,29 +1,18 @@
 package br.com.aurum.price.dao;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import br.com.aurum.price.model.Bitcoin;
 
 @Repository
-public class BitcoinDao {
+public class BitcoinDao implements IBitcoinDao {
 
-	public List<Bitcoin> getResult() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		List<Bitcoin> listBitcoin = new ArrayList<>();
-		ObjectMapper mapper = new ObjectMapper();
-		Bitcoin[] bitcoin = mapper.readValue(new URL("https://www.mercadobitcoin.net/api/BTC/trades/1501871369/1501891200/"), Bitcoin[].class);
-		for (Bitcoin resultBitcoin : bitcoin) {
-			listBitcoin.add(resultBitcoin);
-		}
-		return listBitcoin;
+	public List<Bitcoin> listar() {
+		return WebClient.create("https://www.mercadobitcoin.net").get().uri("/api/BTC/trades/1501871369/1501891200/")
+				.retrieve().bodyToFlux(Bitcoin.class).toStream().collect(Collectors.toList());
 	}
 }
